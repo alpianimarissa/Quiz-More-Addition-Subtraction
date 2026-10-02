@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambridge Math Grade 3 - Unit 9 Interactive Quiz (30 Questions)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .cambridge-card {
+            border-top: 4px solid #dc2626;
+        }
+        .story-badge {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        .status-correct {
+            background-color: #dcfce7;
+            border-color: #86efac;
+            color: #166534;
+        }
+        .status-wrong {
+            background-color: #ffe4e6;
+            border-color: #fca5a5;
+            color: #9f1239;
+        }
+        .status-partial {
+            background-color: #fef9c3;
+            border-color: #fde047;
+            color: #854d0e;
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-20">
+
+    <!-- Sticky Header & Progress Bar -->
+    <header class="bg-sky-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-red-600 text-white p-2 rounded-xl font-black text-lg">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-lg font-black tracking-wide">Cambridge Primary Math Grade 3</h1>
+                    <p class="text-xs text-sky-200">Unit 9: More Addition & Subtraction • 30 Practice Questions</p>
+                </div>
+            </div>
+
+            <!-- Score & Stats Badges -->
+            <div class="flex items-center space-x-2 text-xs font-bold">
+                <div class="bg-sky-800 border border-sky-700 px-3 py-1.5 rounded-xl">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Dijawab: <span id="stat-answered" class="text-amber-300 font-extrabold text-sm">0/30</span>
+                </div>
+                <div class="bg-sky-800 border border-sky-700 px-3 py-1.5 rounded-xl">
+                    <i class="fa-solid fa-star text-amber-400"></i> Skor: <span id="stat-score" class="text-amber-300 font-extrabold text-sm">0</span>
+                </div>
+                <button onclick="resetQuizWithConfirm()" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-1.5 rounded-xl transition flex items-center gap-1">
+                    <i class="fa-solid fa-rotate-right"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Section Navigation Filters -->
+        <div class="bg-sky-950/90 border-t border-sky-800 px-4 py-2">
+            <div class="max-w-6xl mx-auto flex flex-wrap gap-2 text-xs font-bold">
+                <button onclick="filterSection('all')" id="btn-sec-all" class="px-3 py-1.5 rounded-lg bg-sky-600 text-white">
+                    Semua Soal (1-30)
+                </button>
+                <button onclick="filterSection('addition')" id="btn-sec-addition" class="px-3 py-1.5 rounded-lg bg-sky-900 hover:bg-sky-800 text-sky-200">
+                    Section A: Penjumlahan (1-10)
+                </button>
+                <button onclick="filterSection('subtraction')" id="btn-sec-subtraction" class="px-3 py-1.5 rounded-lg bg-sky-900 hover:bg-sky-800 text-sky-200">
+                    Section B: Pengurangan (11-20)
+                </button>
+                <button onclick="filterSection('mixed')" id="btn-sec-mixed" class="px-3 py-1.5 rounded-lg bg-sky-900 hover:bg-sky-800 text-sky-200">
+                    Section C: Soal Cerita & Campuran (21-30)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 mt-6">
+
+        <!-- Intro Banner -->
+        <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h2 class="text-xl font-extrabold text-slate-800">Petunjuk Pengerjaan Kuis Essay:</h2>
+                <p class="text-xs text-slate-600 mt-1">
+                    1. Isi kolom <strong>Estimasi</strong> (angka & cara membulatkan/Count On/Back).<br>
+                    2. Isi kolom <strong>Perhitungan Eksak</strong> (angka & langkah Decompose/Regrouping).<br>
+                    3. Klik <strong>Cek Jawaban</strong> pada tiap soal untuk melihat hasil koreksi instan.<br>
+                    4. <span class="text-emerald-700 font-bold"><i class="fa-solid fa-shield-halved"></i> Fitur Auto-Save:</span> Semua jawabanmu otomatis tersimpan di HP/Komputer sehingga aman saat ter-reload atau jaringan terputus.
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="checkAllAnswers()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs transition shadow flex items-center gap-2">
+                    <i class="fa-solid fa-check-double"></i> Cek Semua Jawaban
+                </button>
+            </div>
+        </div>
+
+        <!-- Questions List Container -->
+        <div id="questions-container" class="space-y-6">
+            <!-- Questions dynamically generated here -->
+        </div>
+
+    </main>
+
+    <script>
+        // Quiz Questions Master Array (30 Questions)
+        const questionsData = [
+            // --- SECTION A: ADDITION (Q1 - Q10) ---
+            {
+                id: 1,
+                sec: 'addition',
+                title: 'Soal 1 • Penjumlahan 3-Digit (Direct)',
+                questionEn: 'Calculate the addition: 645 + 272',
+                isStory: false,
+                estTarget: 920,
+                estAcceptable: [920, 910, 930],
+                exactTarget: 917,
+                estModel: '645 rounds to 650, 272 rounds to 270. Estimate: 650 + 270 = 920 (Count on: 650 → 750 → 850 → 920).',
+                exactModel: 'Decompose: (600 + 200) + (40 + 70) + (5 + 2) = 800 + 110 + 7 = 917.'
+            },
+            {
+                id: 2,
+                sec: 'addition',
+                title: 'Soal 2 • Penjumlahan 3-Digit (Direct)',
+                questionEn: 'Calculate the addition: 524 + 318',
+                isStory: false,
+                estTarget: 840,
+                estAcceptable: [840, 830, 850],
+                exactTarget: 842,
+                estModel: '524 rounds to 520, 318 rounds to 320. Estimate: 520 + 320 = 840.',
+                exactModel: 'Decompose: (500 + 300) + (20 + 10) + (4 + 8) = 800 + 30 + 12 = 842.'
+            },
+            {
+                id: 3,
+                sec: 'addition',
+                title: 'Soal 3 • Penjumlahan 3-Digit (Direct)',
+                questionEn: 'Calculate the addition: 438 + 256',
+                isStory: false,
+                estTarget: 700,
+                estAcceptable: [700, 690, 710],
+                exactTarget: 694,
+                estModel: '438 rounds to 440, 256 rounds to 260. Estimate: 440 + 260 = 700.',
+                exactModel: 'Decompose: (400 + 200) + (30 + 50) + (8 + 6) = 600 + 80 + 14 = 694.'
+            },
+            {
+                id: 4,
+                sec: 'addition',
+                title: 'Soal 4 • Penjumlahan 3-Digit (Direct)',
+                questionEn: 'Calculate the addition: 375 + 419',
+                isStory: false,
+                estTarget: 800,
+                estAcceptable: [800, 790, 810],
+                exactTarget: 794,
+                estModel: '375 rounds to 380, 419 rounds to 420. Estimate: 380 + 420 = 800.',
+                exactModel: 'Decompose: (300 + 400) + (70 + 10) + (5 + 9) = 700 + 80 + 14 = 794.'
+            },
+            {
+                id: 5,
+                sec: 'addition',
+                title: 'Soal 5 • Penjumlahan 3-Digit (Direct)',
+                questionEn: 'Calculate the addition: 612 + 289',
+                isStory: false,
+                estTarget: 900,
+                estAcceptable: [900, 890, 910],
+                exactTarget: 901,
+                estModel: '612 rounds to 610, 289 rounds to 290. Estimate: 610 + 290 = 900.',
+                exactModel: 'Decompose: (600 + 200) + (10 + 80) + (2 + 9) = 800 + 90 + 11 = 901.'
+            },
+            {
+                id: 6,
+                sec: 'addition',
+                title: 'Soal 6 • Soal Cerita Penjumlahan (Word Problem)',
+                questionEn: 'A primary school library has 436 storybooks. The school receives 248 new books from a charity drive. How many storybooks are there in total?',
+                isStory: true,
+                estTarget: 690,
+                estAcceptable: [690, 680, 700],
+                exactTarget: 684,
+                estModel: 'Estimate: 440 + 250 = 690 books.',
+                exactModel: 'Exact: (400 + 200) + (30 + 40) + (6 + 8) = 600 + 70 + 14 = 684 storybooks.'
+            },
+            {
+                id: 7,
+                sec: 'addition',
+                title: 'Soal 7 • Soal Cerita Penjumlahan (Word Problem)',
+                questionEn: 'Maya walked 535 meters in the morning and 284 meters in the afternoon. What is the total distance Maya walked?',
+                isStory: true,
+                estTarget: 820,
+                estAcceptable: [820, 810, 830],
+                exactTarget: 819,
+                estModel: 'Estimate: 540 + 280 = 820 meters.',
+                exactModel: 'Exact: (500 + 200) + (30 + 80) + (5 + 4) = 700 + 110 + 9 = 819 meters.'
+            },
+            {
+                id: 8,
+                sec: 'addition',
+                title: 'Soal 8 • Soal Cerita Penjumlahan (Word Problem)',
+                questionEn: 'A bakery baked 365 chocolate cupcakes and 278 vanilla cupcakes for a birthday party. How many cupcakes were baked altogether?',
+                isStory: true,
+                estTarget: 650,
+                estAcceptable: [650, 640, 660],
+                exactTarget: 643,
+                estModel: 'Estimate: 370 + 280 = 650 cupcakes.',
+                exactModel: 'Exact: (300 + 200) + (60 + 70) + (5 + 8) = 500 + 130 + 13 = 643 cupcakes.'
+            },
+            {
+                id: 9,
+                sec: 'addition',
+                title: 'Soal 9 • Soal Cerita Penjumlahan (Word Problem)',
+                questionEn: 'In a toy factory, 547 toy cars were manufactured on Monday and 316 toy cars on Tuesday. How many toy cars were produced in total?',
+                isStory: true,
+                estTarget: 870,
+                estAcceptable: [870, 860, 880],
+                exactTarget: 863,
+                estModel: 'Estimate: 550 + 320 = 870 toy cars.',
+                exactModel: 'Exact: (500 + 300) + (40 + 10) + (7 + 6) = 800 + 50 + 13 = 863 toy cars.'
+            },
+            {
+                id: 10,
+                sec: 'addition',
+                title: 'Soal 10 • Soal Cerita Penjumlahan (Word Problem)',
+                questionEn: 'An orchard harvested 482 red apples and 369 green apples. What is the total number of apples harvested?',
+                isStory: true,
+                estTarget: 850,
+                estAcceptable: [850, 840, 860],
+                exactTarget: 851,
+                estModel: 'Estimate: 480 + 370 = 850 apples.',
+                exactModel: 'Exact: (480 + 370) = 850, Exact: (400+300) + (80+60) + (2+9) = 700 + 140 + 11 = 851 apples.'
+            },
+
+            // --- SECTION B: SUBTRACTION (Q11 - Q20) ---
+            {
+                id: 11,
+                sec: 'subtraction',
+                title: 'Soal 11 • Pengurangan 3-Digit (Direct)',
+                questionEn: 'Calculate the subtraction: 753 - 281',
+                isStory: false,
+                estTarget: 470,
+                estAcceptable: [470, 460, 480],
+                exactTarget: 472,
+                estModel: '753 rounds to 750, 281 rounds to 280. Estimate: 750 - 280 = 470 (Count back: 750 → 550 → 470).',
+                exactModel: 'Regrouping tens: 753 = 600 + 150 + 3. Subtract (600-200) + (150-80) + (3-1) = 400 + 70 + 2 = 472.'
+            },
+            {
+                id: 12,
+                sec: 'subtraction',
+                title: 'Soal 12 • Pengurangan 3-Digit (Direct)',
+                questionEn: 'Calculate the subtraction: 642 - 271',
+                isStory: false,
+                estTarget: 370,
+                estAcceptable: [370, 360, 380],
+                exactTarget: 371,
+                estModel: '642 rounds to 640, 271 rounds to 270. Estimate: 640 - 270 = 370.',
+                exactModel: 'Regrouping tens: 642 = 500 + 140 + 2. Subtract (500-200) + (140-70) + (2-1) = 300 + 70 + 1 = 371.'
+            },
+            {
+                id: 13,
+                sec: 'subtraction',
+                title: 'Soal 13 • Pengurangan 3-Digit (Direct)',
+                questionEn: 'Calculate the subtraction: 865 - 348',
+                isStory: false,
+                estTarget: 520,
+                estAcceptable: [520, 510, 530],
+                exactTarget: 517,
+                estModel: '865 rounds to 870, 348 rounds to 350. Estimate: 870 - 350 = 520.',
+                exactModel: 'Regrouping ones: 865 = 800 + 50 + 15. Subtract (800-300) + (50-40) + (15-8) = 500 + 10 + 7 = 517.'
+            },
+            {
+                id: 14,
+                sec: 'subtraction',
+                title: 'Soal 14 • Pengurangan 3-Digit (Direct)',
+                questionEn: 'Calculate the subtraction: 534 - 186',
+                isStory: false,
+                estTarget: 340,
+                estAcceptable: [340, 330, 350],
+                exactTarget: 348,
+                estModel: '534 rounds to 530, 186 rounds to 190. Estimate: 530 - 190 = 340.',
+                exactModel: 'Regrouping: 534 = 400 + 120 + 14. Subtract (400-100) + (120-80) + (14-6) = 300 + 40 + 8 = 348.'
+            },
+            {
+                id: 15,
+                sec: 'subtraction',
+                title: 'Soal 15 • Pengurangan 3-Digit (Direct)',
+                questionEn: 'Calculate the subtraction: 921 - 457',
+                isStory: false,
+                estTarget: 460,
+                estAcceptable: [460, 450, 470],
+                exactTarget: 464,
+                estModel: '921 rounds to 920, 457 rounds to 460. Estimate: 920 - 460 = 460.',
+                exactModel: 'Regrouping: 921 = 800 + 110 + 11. Subtract (800-400) + (110-50) + (11-7) = 400 + 60 + 4 = 464.'
+            },
+            {
+                id: 16,
+                sec: 'subtraction',
+                title: 'Soal 16 • Soal Cerita Pengurangan (Word Problem)',
+                questionEn: 'A farmer harvested 865 kg of potatoes. He sold 348 kg at the local market. How many kilograms of potatoes remain unsold?',
+                isStory: true,
+                estTarget: 520,
+                estAcceptable: [520, 510, 530],
+                exactTarget: 517,
+                estModel: 'Estimate: 870 - 350 = 520 kg.',
+                exactModel: 'Exact: 865 - 348 = 517 kg remaining.'
+            },
+            {
+                id: 17,
+                sec: 'subtraction',
+                title: 'Soal 17 • Soal Cerita Pengurangan (Word Problem)',
+                questionEn: 'There were 742 passengers on a commuter train. At the central station, 285 passengers got off. How many passengers remained on the train?',
+                isStory: true,
+                estTarget: 450,
+                estAcceptable: [450, 440, 460],
+                exactTarget: 457,
+                estModel: 'Estimate: 740 - 290 = 450 passengers.',
+                exactModel: 'Exact: (600 - 200) + (130 - 80) + (12 - 5) = 400 + 50 + 7 = 457 passengers.'
+            },
+            {
+                id: 18,
+                sec: 'subtraction',
+                title: 'Soal 18 • Soal Cerita Pengurangan (Word Problem)',
+                questionEn: 'Liam saved 620 reward points. He spent 275 points to redeem a board game. How many reward points does Liam have left?',
+                isStory: true,
+                estTarget: 340,
+                estAcceptable: [340, 330, 350],
+                exactTarget: 345,
+                estModel: 'Estimate: 620 - 280 = 340 points.',
+                exactModel: 'Exact: (500 - 200) + (110 - 70) + (10 - 5) = 300 + 40 + 5 = 345 points.'
+            },
+            {
+                id: 19,
+                sec: 'subtraction',
+                title: 'Soal 19 • Soal Cerita Pengurangan (Word Problem)',
+                questionEn: 'A bookstore had 518 comic books in stock. During a weekend sale, 264 comic books were sold. How many comic books are remaining in the store?',
+                isStory: true,
+                estTarget: 260,
+                estAcceptable: [260, 250, 270],
+                exactTarget: 254,
+                estModel: 'Estimate: 520 - 260 = 260 comic books.',
+                exactModel: 'Exact: (400 - 200) + (110 - 60) + (8 - 4) = 200 + 50 + 4 = 254 comic books.'
+            },
+            {
+                id: 20,
+                sec: 'subtraction',
+                title: 'Soal 20 • Soal Cerita Pengurangan (Word Problem)',
+                questionEn: 'A marathon runner set a goal to run 850 kilometers in three months. She has already completed 382 kilometers. How many more kilometers does she need to run?',
+                isStory: true,
+                estTarget: 470,
+                estAcceptable: [470, 460, 480],
+                exactTarget: 468,
+                estModel: 'Estimate: 850 - 380 = 470 km.',
+                exactModel: 'Exact: (700 - 300) + (140 - 80) + (10 - 2) = 400 + 60 + 8 = 468 km.'
+            },
+
+            // --- SECTION C: MIXED & COMPLEMENTS (Q21 - Q30) ---
+            {
+                id: 21,
+                sec: 'mixed',
+                title: 'Soal 21 • Penjumlahan Campuran (Direct)',
+                questionEn: 'Calculate the sum: 489 + 357',
+                isStory: false,
+                estTarget: 850,
+                estAcceptable: [850, 840, 860],
+                exactTarget: 846,
+                estModel: 'Estimate: 490 + 360 = 850.',
+                exactModel: 'Exact: (400 + 300) + (80 + 50) + (9 + 7) = 700 + 130 + 16 = 846.'
+            },
+            {
+                id: 22,
+                sec: 'mixed',
+                title: 'Soal 22 • Pengurangan Campuran (Direct)',
+                questionEn: 'Calculate the difference: 813 - 365',
+                isStory: false,
+                estTarget: 440,
+                estAcceptable: [440, 430, 450],
+                exactTarget: 448,
+                estModel: 'Estimate: 810 - 370 = 440.',
+                exactModel: 'Exact: (700 - 300) + (100 - 60) + (13 - 5) = 400 + 40 + 8 = 448.'
+            },
+            {
+                id: 23,
+                sec: 'mixed',
+                title: 'Soal 23 • Pasangan Komplementer (Complement to 1000)',
+                questionEn: 'Find the complement to 1000: 270 + _____ = 1000',
+                isStory: false,
+                estTarget: 730,
+                estAcceptable: [730, 720, 740],
+                exactTarget: 730,
+                estModel: 'Estimate: 1000 - 270 = 730.',
+                exactModel: 'Exact: 1000 - 270 = 730 (270 + 30 = 300, 300 + 700 = 1000).'
+            },
+            {
+                id: 24,
+                sec: 'mixed',
+                title: 'Soal 24 • Pengurangan dari 1000',
+                questionEn: 'Calculate: 1000 - 435',
+                isStory: false,
+                estTarget: 560,
+                estAcceptable: [560, 550, 570],
+                exactTarget: 565,
+                estModel: 'Estimate: 1000 - 440 = 560.',
+                exactModel: 'Exact: 1000 - 435 = 565 (Complements: 435 + 5 = 440, 440 + 60 = 500, 500 + 500 = 1000).'
+            },
+            {
+                id: 25,
+                sec: 'mixed',
+                title: 'Soal 25 • Soal Cerita Dua Langkah (Two-Step Problem)',
+                questionEn: 'Sophia had $950 in her savings account. She bought a bicycle for $385 and a helmet for $65. How much money does Sophia have remaining?',
+                isStory: true,
+                estTarget: 500,
+                estAcceptable: [500, 490, 510],
+                exactTarget: 500,
+                estModel: 'Estimate spent: 390 + 70 = 460. Remaining: 950 - 460 = 490.',
+                exactModel: 'Exact spent: $385 + $65 = $450. Exact remaining: $950 - $450 = $500.'
+            },
+            {
+                id: 26,
+                sec: 'mixed',
+                title: 'Soal 26 • Soal Cerita Penjumlahan (Word Problem)',
+                questionEn: 'A community garden planted 324 tulip bulbs in October and 289 daffodil bulbs in November. How many flower bulbs were planted altogether?',
+                isStory: true,
+                estTarget: 610,
+                estAcceptable: [610, 600, 620],
+                exactTarget: 613,
+                estModel: 'Estimate: 320 + 290 = 610 bulbs.',
+                exactModel: 'Exact: (300 + 200) + (20 + 80) + (4 + 9) = 500 + 100 + 13 = 613 bulbs.'
+            },
+            {
+                id: 27,
+                sec: 'mixed',
+                title: 'Soal 27 • Soal Cerita Penjumlahan (Word Problem)',
+                questionEn: 'An theme park greeted 672 visitors on Saturday morning and 249 visitors on Saturday afternoon. What was the total number of visitors on Saturday?',
+                isStory: true,
+                estTarget: 920,
+                estAcceptable: [920, 910, 930],
+                exactTarget: 921,
+                estModel: 'Estimate: 670 + 250 = 920 visitors.',
+                exactModel: 'Exact: (600 + 200) + (70 + 40) + (2 + 9) = 800 + 110 + 11 = 921 visitors.'
+            },
+            {
+                id: 28,
+                sec: 'mixed',
+                title: 'Soal 28 • Soal Cerita Pengurangan (Word Problem)',
+                questionEn: 'A warehouse stored 830 boxes of fruit juice. On Monday morning, 368 boxes were delivered to supermarkets. How many boxes remain in the warehouse?',
+                isStory: true,
+                estTarget: 460,
+                estAcceptable: [460, 450, 470],
+                exactTarget: 462,
+                estModel: 'Estimate: 830 - 370 = 460 boxes.',
+                exactModel: 'Exact: (700 - 300) + (120 - 60) + (10 - 8) = 400 + 60 + 2 = 462 boxes.'
+            },
+            {
+                id: 29,
+                sec: 'mixed',
+                title: 'Soal 29 • Soal Cerita Penjumlahan (Word Problem)',
+                questionEn: 'Oliver collected 456 sports cards, and his brother Noah collected 378 cards. How many sports cards do both brothers have combined?',
+                isStory: true,
+                estTarget: 840,
+                estAcceptable: [840, 830, 850],
+                exactTarget: 834,
+                estModel: 'Estimate: 460 + 380 = 840 cards.',
+                exactModel: 'Exact: (400 + 300) + (50 + 70) + (6 + 8) = 700 + 120 + 14 = 834 cards.'
+            },
+            {
+                id: 30,
+                sec: 'mixed',
+                title: 'Soal 30 • Soal Cerita Pengurangan (Word Problem)',
+                questionEn: 'A city zoo welcomed 915 visitors on Sunday. If 468 of the visitors were adults and the rest were children, how many children visited the zoo?',
+                isStory: true,
+                estTarget: 450,
+                estAcceptable: [450, 440, 460],
+                exactTarget: 447,
+                estModel: 'Estimate: 920 - 470 = 450 children.',
+                exactModel: 'Exact: (800 - 400) + (100 - 60) + (15 - 8) = 400 + 40 + 7 = 447 children.'
+            }
+        ];
+
+        // Storage Key
+        const STORAGE_KEY = 'cambridge_math_g3_quiz_30_state';
+
+        // Current Active Filter
+        let currentFilter = 'all';
+
+        // Load saved state or create initial
+        function getSavedState() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            updateHeaderStats();
+        }
+
+        // Render Questions
+        function renderQuiz() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            const state = getSavedState();
+
+            questionsData.forEach((q) => {
+                if (currentFilter !== 'all' && q.sec !== currentFilter) return;
+
+                const qState = state[q.id] || { estVal: '', estSteps: '', exactVal: '', exactSteps: '', isChecked: false, isCorrect: false };
+
+                const card = document.createElement('div');
+                card.className = `bg-white p-5 md:p-6 rounded-3xl shadow-sm border border-slate-200 cambridge-card transition ${qState.isChecked ? (qState.isCorrect ? 'border-emerald-500' : 'border-rose-400') : ''}`;
+                card.id = `card-q-${q.id}`;
+
+                let statusBadge = '';
+                if (qState.isChecked) {
+                    if (qState.isCorrect) {
+                        statusBadge = `<span class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-black px-3 py-1 rounded-lg"><i class="fa-solid fa-check"></i> Jawaban Benar</span>`;
+                    } else if (qState.isPartial) {
+                        statusBadge = `<span class="bg-amber-100 text-amber-900 border border-amber-300 text-xs font-black px-3 py-1 rounded-lg"><i class="fa-solid fa-triangle-exclamation"></i> Mendekati (Cek Eksak)</span>`;
+                    } else {
+                        statusBadge = `<span class="bg-rose-100 text-rose-800 border border-rose-300 text-xs font-black px-3 py-1 rounded-lg"><i class="fa-solid fa-xmark"></i> Perlu Diperbaiki</span>`;
+                    }
+                } else {
+                    statusBadge = `<span class="bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-lg">Belum Diperiksa</span>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-sky-900 text-white font-extrabold text-xs px-3 py-1 rounded-lg">${q.title}</span>
+                            ${q.isStory ? '<span class="story-badge font-bold text-xs px-2.5 py-0.5 rounded-md"><i class="fa-solid fa-book-open"></i> Word Problem</span>' : ''}
+                        </div>
+                        <div id="badge-status-${q.id}">${statusBadge}</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="text-slate-800 font-extrabold text-base md:text-lg leading-relaxed">${q.questionEn}</p>
+                    </div>
+
+                    <!-- Essay Input Form -->
+                    <div class="grid md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <!-- Left Column: ESTIMATION -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-black text-sky-800 flex items-center gap-1 uppercase tracking-wide">
+                                <i class="fa-solid fa-bullseye text-red-600"></i> 1. Jawaban & Langkah Estimasi:
+                            </label>
+                            <input type="number" id="input-est-val-${q.id}" value="${qState.estVal}" oninput="onInputChange(${q.id})" placeholder="Hasil Angka Estimasi" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm font-bold text-sky-900 focus:ring-2 focus:ring-sky-500 outline-none">
+                            <textarea id="input-est-steps-${q.id}" oninput="onInputChange(${q.id})" placeholder="Tuliskan cara membulatkan / Count On / Count Back..." class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-xs font-semibold text-slate-700 h-20 focus:ring-2 focus:ring-sky-500 outline-none resize-none">${qState.estSteps}</textarea>
+                        </div>
+
+                        <!-- Right Column: EXACT CALCULATION -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-black text-emerald-800 flex items-center gap-1 uppercase tracking-wide">
+                                <i class="fa-solid fa-calculator text-emerald-600"></i> 2. Jawaban & Langkah Eksak:
+                            </label>
+                            <input type="number" id="input-exact-val-${q.id}" value="${qState.exactVal}" oninput="onInputChange(${q.id})" placeholder="Hasil Angka Eksak" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm font-bold text-emerald-900 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <textarea id="input-exact-steps-${q.id}" oninput="onInputChange(${q.id})" placeholder="Tuliskan cara Decompose / Regrouping..." class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-xs font-semibold text-slate-700 h-20 focus:ring-2 focus:ring-emerald-500 outline-none resize-none">${qState.exactSteps}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Actions & Model Solution -->
+                    <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+                        <button onclick="checkAnswer(${q.id})" class="bg-sky-600 hover:bg-sky-700 text-white font-extrabold px-4 py-2 rounded-xl text-xs transition shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-check"></i> Periksa Jawaban Soal Ini
+                        </button>
+                    </div>
+
+                    <!-- Model Solution Explanation (Visible after check) -->
+                    <div id="solution-box-${q.id}" class="${qState.isChecked ? '' : 'hidden'} mt-4 p-4 rounded-2xl text-xs space-y-2 border ${qState.isCorrect ? 'status-correct' : (qState.isPartial ? 'status-partial' : 'status-wrong')}">
+                        <div class="font-extrabold text-sm border-b border-black/10 pb-1 flex items-center gap-1">
+                            <i class="fa-solid fa-lightbulb"></i> Kunci Jawaban & Langkah Resmi Cambridge:
+                        </div>
+                        <p><strong>• Langkah Estimasi:</strong> ${q.estModel}</p>
+                        <p><strong>• Perhitungan Eksak:</strong> ${q.exactModel}</p>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateHeaderStats();
+        }
+
+        // Handle auto-save on input change
+        function onInputChange(qId) {
+            const state = getSavedState();
+            const estVal = document.getElementById(`input-est-val-${qId}`).value;
+            const estSteps = document.getElementById(`input-est-steps-${qId}`).value;
+            const exactVal = document.getElementById(`input-exact-val-${qId}`).value;
+            const exactSteps = document.getElementById(`input-exact-steps-${qId}`).value;
+
+            state[qId] = {
+                ...state[qId],
+                estVal: estVal,
+                estSteps: estSteps,
+                exactVal: exactVal,
+                exactSteps: exactSteps,
+                // reset checked status if user modifies answer
+                isChecked: false
+            };
+
+            saveState(state);
+
+            // Hide solution box on edit
+            const solBox = document.getElementById(`solution-box-${qId}`);
+            if (solBox) solBox.classList.add('hidden');
+
+            const badge = document.getElementById(`badge-status-${qId}`);
+            if (badge) badge.innerHTML = `<span class="bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-lg">Belum Diperiksa</span>`;
+        }
+
+        // Check Single Answer
+        function checkAnswer(qId) {
+            const q = questionsData.find(item => item.id === qId);
+            const state = getSavedState();
+
+            const userEstVal = parseInt(document.getElementById(`input-est-val-${qId}`).value);
+            const userExactVal = parseInt(document.getElementById(`input-exact-val-${qId}`).value);
+
+            const isEstCorrect = q.estAcceptable.includes(userEstVal);
+            const isExactCorrect = (userExactVal === q.exactTarget);
+
+            let isCorrect = false;
+            let isPartial = false;
+
+            if (isEstCorrect && isExactCorrect) {
+                isCorrect = true;
+            } else if (isExactCorrect || isEstCorrect) {
+                isPartial = true;
+            }
+
+            state[qId] = {
+                ...state[qId],
+                estVal: document.getElementById(`input-est-val-${qId}`).value,
+                estSteps: document.getElementById(`input-est-steps-${qId}`).value,
+                exactVal: document.getElementById(`input-exact-val-${qId}`).value,
+                exactSteps: document.getElementById(`input-exact-steps-${qId}`).value,
+                isChecked: true,
+                isCorrect: isCorrect,
+                isPartial: isPartial
+            };
+
+            saveState(state);
+
+            // Update UI
+            const solBox = document.getElementById(`solution-box-${qId}`);
+            solBox.className = `mt-4 p-4 rounded-2xl text-xs space-y-2 border ${isCorrect ? 'status-correct' : (isPartial ? 'status-partial' : 'status-wrong')}`;
+            solBox.classList.remove('hidden');
+
+            const badge = document.getElementById(`badge-status-${qId}`);
+            if (isCorrect) {
+                badge.innerHTML = `<span class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-black px-3 py-1 rounded-lg"><i class="fa-solid fa-check"></i> Jawaban Sempurna (+10)</span>`;
+            } else if (isPartial) {
+                badge.innerHTML = `<span class="bg-amber-100 text-amber-900 border border-amber-300 text-xs font-black px-3 py-1 rounded-lg"><i class="fa-solid fa-triangle-exclamation"></i> Sebagian Benar (+5)</span>`;
+            } else {
+                badge.innerHTML = `<span class="bg-rose-100 text-rose-800 border border-rose-300 text-xs font-black px-3 py-1 rounded-lg"><i class="fa-solid fa-xmark"></i> Perlu Diperbaiki</span>`;
+            }
+        }
+
+        // Check All Answers Button
+        function checkAllAnswers() {
+            questionsData.forEach(q => {
+                checkAnswer(q.id);
+            });
+        }
+
+        // Update Header Stats
+        function updateHeaderStats() {
+            const state = getSavedState();
+            let answeredCount = 0;
+            let score = 0;
+
+            Object.keys(state).forEach(qId => {
+                const item = state[qId];
+                if (item.estVal || item.exactVal) {
+                    answeredCount++;
+                }
+                if (item.isChecked) {
+                    if (item.isCorrect) score += 10;
+                    else if (item.isPartial) score += 5;
+                }
+            });
+
+            document.getElementById('stat-answered').innerText = `${answeredCount}/30`;
+            document.getElementById('stat-score').innerText = score;
+        }
+
+        // Filter Section
+        function filterSection(sec) {
+            currentFilter = sec;
+
+            const btnIds = ['all', 'addition', 'subtraction', 'mixed'];
+            btnIds.forEach(id => {
+                const btn = document.getElementById(`btn-sec-${id}`);
+                if (id === sec) {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-sky-600 text-white';
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-sky-900 hover:bg-sky-800 text-sky-200';
+                }
+            });
+
+            renderQuiz();
+        }
+
+        // Reset Quiz
+        function resetQuizWithConfirm() {
+            if (confirm('Apakah kamu yakin ingin mengulang seluruh kuis? Semua jawaban akan dihapus.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                renderQuiz();
+            }
+        }
+
+        // Initial Load
+        window.onload = function() {
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
